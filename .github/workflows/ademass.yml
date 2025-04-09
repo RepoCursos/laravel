@@ -18,6 +18,10 @@ jobs:
       with:
         php-version: '8.2.6'
 
+    - name: Copy .env
+      run: |
+        cp .env.example .env
+
     - name: Install dependencies
       run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-suggest
 
@@ -28,7 +32,8 @@ jobs:
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         FTP_DESTINATION: ${{ secrets.FTP_DESTINATION }}
       run: php artisan config:cache
-      
+      run: php artisan key:generate --force
+
     - name: Deploy to shared hosting
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -36,6 +41,3 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION }}
-
-    - name: Copy .env
-      copy: .env.example .env
