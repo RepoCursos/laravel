@@ -42,6 +42,3 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION }}
-      
-    - name: Ejecutar comandos de Laravel post-deployment
-      run: php artisan migrate --force
